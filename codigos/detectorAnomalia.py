@@ -15,7 +15,7 @@ from sklearn.metrics import classification_report
 from sklearn.preprocessing import RobustScaler
 
 DATA_PATH = "../banco/cicids2017_cleaned.csv"
-LABEL_COL = None 
+LABEL_COL = None
 CONTAMINATION = 0.02    # proporção esperada de anomalias; "auto" deixa o sklearn estimar
 
 
@@ -89,11 +89,12 @@ def main():
     path = sys.argv[1] if len(sys.argv) > 1 else DATA_PATH
     df, label_col = load_data(path)
     df, X = detect_anomalies(df, label_col, CONTAMINATION)
-
+    
     print(f"Anômalas: {df['is_anomaly'].sum()} de {len(df)} registros")
 
     if label_col and label_col in df.columns:
-        print(classification_report(df[label_col], df["is_anomaly"], target_names=["normal", "anomalia"]))
+        y_true = df[label_col] != 'Normal Traffic'
+        print(classification_report(y_true, df["is_anomaly"], target_names=["normal", "anomalia"]))
 
     plot_anomalies(X, df["is_anomaly"].values)
     df.to_csv("../resultados/resultado_anomalias.csv", index=False)
