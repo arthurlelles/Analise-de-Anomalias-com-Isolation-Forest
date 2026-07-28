@@ -17,7 +17,23 @@ Este projeto implementa um script genérico de **detecção de anomalias** em da
 7. **Avaliação (opcional)** — se o dataset tiver uma coluna de rótulo real, calcula métricas de precisão e revocação, usadas apenas para validar o resultado, nunca durante o treinamento.
 8. **Exportação** — salva um novo CSV com os resultados (score e classificação de cada registro).
 
+## Baixar banco de dados
+
+Acesse o link abaixo e baixe os bancos de dados:
+
+[BANCO DE DADOS](https://drive.google.com/drive/folders/1T6FGM-OGl5sduLNYWg1Z8BuIpXNiNL8E?usp=sharing)
+
+Apos descompactar adicione os bancos na pasta `banco` e siga para os proximos passos.
+
 ## Como usar
+
+Para rodar o codigo para a analise baixe as dependencias que estão listadas em `requirements.txt`, após ao baixar as dependencias descompacte o banco de dados disponivel em `banco`. Para baixar as depedencias e rodar o projeto utilize:
+
+```bash
+pip install -r requirements.txt
+cd codigos
+python detectorAnomalia.py
+```
 
 Dentro da pasta codigos estará o detector de anomalias, nele você pode testar varios banco de dados em que sua base seja numerica.
 Para atualizar o banco de analise modifique nesta parte:
@@ -27,10 +43,18 @@ linha 16
 DATA_PATH = "../banco/SEU_BANCO_AQUI"
 ```
 
+A taxa de `CONTAMINATION` recomendada para o detecção de anomalia mais precisa é de 1% a 5% (0.01 a 0.05)
+
+linha 18
 ```bash
-pip install -r requirements.txt
-cd codigos
-python detectorAnomalia.py
+CONTAMINATION = 0.02
+```
+
+Para bancos de dados massivos com valor grandes é mais recomendado utilizar `RobustScaler` para ter uma analise de dados mais preciso e realista, em bancos mais simples é recomendado utilizar `StandardScaler` para a analise.
+
+linha 57
+```bash
+X = RobustScaler().fit_transform(df[feature_cols])
 ```
 
 Saida esta configurada para ao terminar a analise enviar um ".png" com um gráfico e uma planilha com os resultados.

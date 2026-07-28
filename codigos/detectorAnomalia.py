@@ -12,10 +12,11 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.ensemble import IsolationForest
 from sklearn.decomposition import PCA
 from sklearn.metrics import classification_report
+from sklearn.preprocessing import RobustScaler
 
-DATA_PATH = "creditcard.csv"
-LABEL_COL = None          # nome da coluna de rótulo, se houver (ex: "Class", "is_fraud")
-CONTAMINATION = "auto"    # proporção esperada de anomalias; "auto" deixa o sklearn estimar
+DATA_PATH = "../banco/cicids2017_cleaned.csv"
+LABEL_COL = None 
+CONTAMINATION = 0.02    # proporção esperada de anomalias; "auto" deixa o sklearn estimar
 
 
 def load_data(path):
@@ -51,8 +52,9 @@ def select_features(df, label_col):
 
 def detect_anomalies(df, label_col, contamination):
     feature_cols = select_features(df, label_col)
-    X = StandardScaler().fit_transform(df[feature_cols])
 
+    # Para banco de dados mais simples utilize StandardScaler e para mais robustos RobustScaler
+    X = RobustScaler().fit_transform(df[feature_cols])
     model = IsolationForest(contamination=contamination, random_state=42, n_jobs=-1)
     model.fit(X)
 
@@ -64,15 +66,22 @@ def detect_anomalies(df, label_col, contamination):
 def plot_anomalies(X, is_anomaly, path="../resultados/anomalias.png"):
     coords = PCA(n_components=2, random_state=42).fit_transform(X) if X.shape[1] > 2 else X
 
-    plt.figure(figsize=(8, 6))
-    plt.scatter(coords[~is_anomaly, 0], coords[~is_anomaly, 1], s=8, alpha=0.4, label="normal")
-    plt.scatter(coords[is_anomaly, 0], coords[is_anomaly, 1], s=20, color="red", label="anomalia")
-    plt.xlabel("Componente 1")
-    plt.ylabel("Componente 2")
-    plt.title("Detecção de Anomalias - Isolation Forest")
+    plt.figure(figsize=(10, 8)) # Aumentando um pouco a figura para dar respiro
+    
+    # Plotando normais (azuis)
+    plt.scatter(coords[~is_anomaly, 0], coords[~is_anomaly, 1], 
+                s=5, alpha=0.3, label="Normal", color="steelblue")
+    
+    # Plotando anomalias (vermelhas) com transparência e menor tamanho
+    plt.scatter(coords[is_anomaly, 0], coords[is_anomaly, 1], 
+                s=10, alpha=0.5, color="crimson", label="Anomalia", edgecolors='none')
+    
+    plt.xlabel("Componente Principal 1")
+    plt.ylabel("Componente Principal 2")
+    plt.title("Detecção de Anomalias - Isolation Forest (PCA 2D)")
     plt.legend()
     plt.tight_layout()
-    plt.savefig(path, dpi=150)
+    plt.savefig(path, dpi=300) # Aumentando o DPI para melhor resolução
     plt.close()
 
 
