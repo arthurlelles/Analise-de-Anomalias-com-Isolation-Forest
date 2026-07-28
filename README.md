@@ -49,3 +49,5 @@ Ver `requirements.txt`. Principais bibliotecas: `pandas`, `numpy`, `scikit-learn
 ## Dataset recomendado para testes
 
 [Credit Card Fraud Detection (Kaggle)](https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud) — transações de cartão de crédito com rótulo de fraude confirmada, usado como referência principal deste trabalho.
+# Analise-de-Anomalias-com-Isolation-Forest
+Projeto sobre "Aprendizado de Maquina não Supervisionado" utilizando Isolation Forest para destacar anomalias!
