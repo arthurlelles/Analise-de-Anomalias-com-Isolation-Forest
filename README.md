@@ -19,20 +19,36 @@ Este projeto implementa um script genérico de **detecção de anomalias** em da
 
 ## Como usar
 
+Dentro da pasta codigos estará o detector de anomalias, nele você pode testar varios banco de dados em que sua base seja numerica.
+Para atualizar o banco de analise modifique nesta parte:
+
+linha 16
 ```bash
-pip install -r requirements.txt
-python deteccao_anomalias_generico.py caminho/para/seus_dados.csv
+DATA_PATH = "../banco/SEU_BANCO_AQUI"
 ```
 
-Se nenhum caminho for informado, o script roda com dados sintéticos gerados automaticamente:
-
 ```bash
-python deteccao_anomalias_generico.py
+pip install -r requirements.txt
+cd codigos
+python detectorAnomalia.py
+```
+
+Saida esta configurada para ao terminar a analise enviar um ".png" com um gráfico e uma planilha com os resultados.
+Você podera acessa-los na pasta resultados, caso queira configurar outro local de saida modifique aqui em `detectorAnomalia.py`:
+
+linha 64
+```bash
+def plot_anomalies(X, is_anomaly, path="../resultados/anomalias.png"):
+```
+
+linha 90
+```bash
+df.to_csv("../resultados/resultado_anomalias.csv", index=False)
 ```
 
 ### Configuração
 
-No topo do arquivo `deteccao_anomalias_generico.py`:
+No topo do arquivo `detectorAnomalia.py`:
 
 - `LABEL_COL` — nome da coluna de rótulo, se o dataset tiver uma (ex: `"Class"`). Deixe `None` se não houver.
 - `CONTAMINATION` — proporção esperada de anomalias no dataset. Use `"auto"` para deixar o scikit-learn estimar, ou um valor entre 0 e 0.5 (ex: `0.02` para 2%).
