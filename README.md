@@ -75,7 +75,7 @@ df.to_csv("../resultados/resultado_anomalias.csv", index=False)
 No topo do arquivo `detectorAnomalia.py`:
 
 - `LABEL_COL` — nome da coluna de rótulo, se o dataset tiver uma (ex: `"Class"`). Deixe `None` se não houver.
-- `CONTAMINATION` — proporção esperada de anomalias no dataset. Use `"auto"` para deixar o scikit-learn estimar, ou um valor entre 0 e 0.5 (ex: `0.02` para 2%).
+- `CONTAMINATION` — proporção esperada de anomalias no dataset.
 
 ## Saída gerada
 
@@ -86,8 +86,3 @@ No topo do arquivo `detectorAnomalia.py`:
 
 Ver `requirements.txt`. Principais bibliotecas: `pandas`, `numpy`, `scikit-learn`, `matplotlib`.
 
-## Dataset recomendado para testes
-
-[Credit Card Fraud Detection (Kaggle)](https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud) — transações de cartão de crédito com rótulo de fraude confirmada, usado como referência principal deste trabalho.
-# Analise-de-Anomalias-com-Isolation-Forest
-Projeto sobre "Aprendizado de Maquina não Supervisionado" utilizando Isolation Forest para destacar anomalias!
